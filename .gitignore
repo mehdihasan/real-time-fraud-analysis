@@ -1,17 +1,12 @@
-bintray.sh
-
 *target/
 *.idea/
 *.project
 *.classpath
 
-
-
 # Maven specific
 **/target/*
 
 # IntelliJ IDEA specific
-.idea/
 *.iml
 
 # Eclipse specific
@@ -27,10 +22,8 @@ bintray.sh
 # VSCode
 .vscode/
 
-
-# JAR
-*.jar
-
-
 # OS
 **.DS_Store
+
+# env
+*.env

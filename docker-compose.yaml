@@ -99,7 +99,7 @@ services:
 
 
   kafdrop:
-    image: mehdihasan/cephalopod:2.0
+    image: mehdihasan/kafdrop:2.0
     hostname: kafdrop
     container_name: kafdrop
     depends_on:
