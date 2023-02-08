@@ -1,4 +1,4 @@
-# Fraud Detection Alanysis
+# Real time fraud analysis using Kafka Streams
 
 ## References
 
