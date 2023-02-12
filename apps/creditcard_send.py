@@ -5,20 +5,18 @@ import datetime
 import json
 import random
 import ccard
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
 
 
+AMQP_URL = "amqp://user:password@localhost:5672" # os.environ.get('CLOUDAMQP_URL')
 ACCOUNT_ID_COUNT = 20  #This number should match the number of customers in Postgres database
 account_ids = [i + 1 for i in range(ACCOUNT_ID_COUNT)]
 
 if __name__ == '__main__':
-    url = os.environ.get('CLOUDAMQP_URL')
+    url = AMQP_URL
     params = pika.URLParameters(url)
     connection = pika.BlockingConnection(params)
     channel = connection.channel() # start a channel
-    channel.queue_declare(queue='txs',durable=True) # Declare a queue
+    channel.queue_declare(queue='txs',durable=True, auto_delete=False) # Declare a queue
     rand = random.Random()
 
     try:

@@ -1,0 +1,20 @@
+{
+    "name": "transaction-connector-v0",
+    "config": {
+        "name": "transaction-connector-v0",
+        "connector.class": "org.apache.camel.kafkaconnector.rabbitmq.CamelRabbitmqSourceConnector",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "org.apache.kafka.connect.converters.ByteArrayConverter",
+        "camel.source.maxPollDuration": "10000",
+        "topics": "rabbitmq_transactions_v0",
+        "camel.component.rabbitmq.hostname": "rabbitmq",
+        "camel.component.rabbitmq.portnumber": "5672",
+        "camel.component.rabbitmq.username": "user",
+        "camel.component.rabbitmq.password": "password",
+        "camel.source.path.exchangeName": "default",
+        "camel.source.endpoint.exchangeType": "topic",
+        "camel.source.endpoint.queue": "txs",
+        "camel.source.endpoint.vhost": "/",
+        "camel.source.endpoint.autoDelete": false
+    }
+}
