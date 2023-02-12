@@ -93,20 +93,6 @@ services:
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/local/share/kafka/plugins,/opt/connectors"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-
-  schema-registry:
-    image: confluentinc/cp-schema-registry:7.2.3
-    hostname: schema-registry
-    container_name: schema-registry
-    depends_on:
-      - zookeeper
-      - broker
-    ports:
-      - "8081:8081"
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
 
 
   ksqldb-server:
@@ -116,7 +102,6 @@ services:
     depends_on:
       - zookeeper
       - broker
-      - schema-registry
     ports:
       - "8088:8088"
     volumes:
@@ -127,20 +112,6 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
       KSQL_KSQL_QUERIES_FILE: /opt/queries/queries.sql
-      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
-
-
-
-  ksqldb-cli:
-    image: confluentinc/ksqldb-cli:0.28.2
-    container_name: ksqldb-cli
-    depends_on:
-      - zookeeper
-      - broker
-      - schema-registry
-      - ksqldb-server
-    entrypoint: /bin/sh
-    tty: true
 
 
   kafdrop:
