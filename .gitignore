@@ -2,6 +2,7 @@
 *.idea/
 *.project
 *.classpath
+*.jar
 
 # Maven specific
 **/target/*
