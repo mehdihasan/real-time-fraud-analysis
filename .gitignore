@@ -3,6 +3,12 @@
 *.project
 *.classpath
 *.jar
+*.zip
+*.tar
+*doc
+*assets
+*.gz*
+*connectors
 
 # Maven specific
 **/target/*

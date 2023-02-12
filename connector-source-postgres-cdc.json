@@ -11,6 +11,7 @@
         "table.include.list": "public.customers",
         "plugin.name": "pgoutput",
         "publication.autocreate.mode": "filtered",
+        "after.state.only": "false",
         "key.converter": "org.apache.kafka.connect.json.JsonConverter",
         "key.converter.schemas.enable": "false",
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",

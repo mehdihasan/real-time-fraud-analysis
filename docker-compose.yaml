@@ -41,6 +41,25 @@ services:
       KAFKA_MAX_REQUEST_SIZE: 25728640
 
 
+  init-kafka:
+    image: confluentinc/cp-kafka:7.2.3
+    depends_on:
+      - broker
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server broker:29092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic v0.public.customers --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic rabbitmq_transactions_v0 --replication-factor 1 --partitions 1
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server broker:29092 --list
+      "
+
+
   connect:
     image: confluentinc/cp-kafka-connect:7.2.3
     hostname: connect
@@ -74,28 +93,54 @@ services:
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/local/share/kafka/plugins,/opt/connectors"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.2.3
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - zookeeper
+      - broker
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
 
 
-  # ksqldb-server:
-  #   image: confluentinc/ksqldb-server:0.27.0
-  #   hostname: ksqldb-server
-  #   container_name: ksqldb-server
-  #   ports:
-  #     - "8088:8088"
-  #   environment:
-  #     KSQL_LISTENERS: http://0.0.0.0:8088
-  #     KSQL_BOOTSTRAP_SERVERS: 'broker:29092'
-  #     KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
-  #     KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:0.28.2
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    depends_on:
+      - zookeeper
+      - broker
+      - schema-registry
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./apps/ksqldb.sql:/opt/queries/queries.sql
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: 'broker:29092'
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+      KSQL_KSQL_QUERIES_FILE: /opt/queries/queries.sql
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
 
 
-  # ksqldb-cli:
-  #   image: confluentinc/ksqldb-cli:0.27.0
-  #   container_name: ksqldb-cli
-  #   depends_on:
-  #     - ksqldb-server
-  #   entrypoint: /bin/sh
-  #   tty: true
+
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli:0.28.2
+    container_name: ksqldb-cli
+    depends_on:
+      - zookeeper
+      - broker
+      - schema-registry
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
 
 
   kafdrop:
@@ -103,6 +148,7 @@ services:
     hostname: kafdrop
     container_name: kafdrop
     depends_on:
+      - zookeeper
       - broker
     ports:
       - "9000:9000"

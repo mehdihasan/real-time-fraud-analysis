@@ -7,7 +7,7 @@
 - [X] Access to RabbitMQ management portal [11-Feb-2023]
 - [X] Publish transaction messages to RabbitMQ
 - [X] Configure & Deploy RabbitMQ connector
-- [ ] Access ksqlDB
+- [X] Access ksqlDB
 - [ ] Implement fraud detection streams processing in ksqlDB
 - [ ] Access the fraud analysis topic
 - [ ] Access MongoDB
