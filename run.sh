@@ -1,10 +1,16 @@
 ##############################################
 ## Download the connectors if needed
+## debezium-connector-postgresql  >> version 2.0.1
+## camel-rabbitmq-kafka-connector >> veriosn 0.11.5
 ##############################################
 
 CONNECTOR_DIR=./connect/connectors
 CDC_DIR=./connect/connectors/debezium-debezium-connector-postgresql-2.0.1
 RABBIT_DIR=./connect/connectors/camel-rabbitmq-kafka-connector
+
+if [ ! -d "$CONNECTOR_DIR" ]; then
+  mkdir -p $CONNECTOR_DIR
+fi
 
 if [ ! -d "$CDC_DIR" ]; then
   echo "$CDC_DIR does not exist. Let's create."
