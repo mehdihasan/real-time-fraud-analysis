@@ -10,6 +10,9 @@
 *.gz*
 *connectors
 
+# Python specific
+*__pycache__
+
 # Maven specific
 **/target/*
 

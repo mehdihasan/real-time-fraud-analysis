@@ -7,8 +7,9 @@
 - [X] Access to RabbitMQ management portal [11-Feb-2023]
 - [X] Publish transaction messages to RabbitMQ
 - [X] Configure & Deploy RabbitMQ connector
-- [X] Access ksqlDB
-- [ ] Implement fraud detection streams processing in ksqlDB
-- [ ] Access the fraud analysis topic
+- [X] Access ksqlDB [12-Feb-2023]
+- [X] Implement fraud detection streams processing in ksqlDB
+- [X] Access the fraud analysis topic
+- [X] Script to update user credit limit [13-Feb-2023]
 - [ ] Access MongoDB
 - [ ] Configure and Deploy MongoDB sink connector

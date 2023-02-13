@@ -70,5 +70,3 @@ localhost:8083/connectors/ \
 
 python3 ./apps/creditcard_send.py -d
 
-echo "... ... ... ... ... ... ... ... ... ..."
-
