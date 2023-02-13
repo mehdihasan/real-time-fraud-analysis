@@ -11,5 +11,7 @@
 - [X] Implement fraud detection streams processing in ksqlDB
 - [X] Access the fraud analysis topic
 - [X] Script to update user credit limit [13-Feb-2023]
-- [ ] Access MongoDB
-- [ ] Configure and Deploy MongoDB sink connector
+- [X] Access MongoDB
+- [X] Configure and Deploy MongoDB sink connector
+- [ ] Apply other way of stream processing
+- [ ] Documentation

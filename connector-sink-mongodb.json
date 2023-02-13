@@ -1,0 +1,14 @@
+{
+    "name": "fraud-sink-connector-v0",
+    "config": {
+        "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+        "name": "fraud-sink-connector-v0",
+        "input.data.format": "JSON",
+        "topics": "FD_possible_stolen_card",
+        "connection.uri": "mongodb://user:password@mongodb:27017",
+        "database": "fd_db",
+        "collection": "fraud",
+        "document.id.strategy": "com.mongodb.kafka.connect.sink.processor.id.strategy.BsonOidStrategy",
+        "tasks.max": "1"
+    }
+}

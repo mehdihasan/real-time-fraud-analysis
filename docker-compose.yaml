@@ -44,6 +44,7 @@ services:
   init-kafka:
     image: confluentinc/cp-kafka:7.2.3
     depends_on:
+      - zookeeper
       - broker
     entrypoint: [ '/bin/sh', '-c' ]
     command: |
@@ -102,6 +103,8 @@ services:
     depends_on:
       - zookeeper
       - broker
+      - connect
+      - init-kafka
     ports:
       - "8088:8088"
     volumes:
@@ -165,12 +168,12 @@ services:
       - ./postgres/init.sh:/docker-entrypoint-initdb.d/init.sh
 
 
-  # mongodb:
-  #   image: mongo:6
-  #   hostname: mongodb
-  #   container_name: mongodb
-  #   ports:
-  #     - "27017:27017"
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: admin
-  #     MONGO_INITDB_ROOT_PASSWORD: admin
+  mongodb:
+    image: mongo:6
+    hostname: mongodb
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
