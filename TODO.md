@@ -13,5 +13,6 @@
 - [X] Script to update user credit limit [13-Feb-2023]
 - [X] Access MongoDB
 - [X] Configure and Deploy MongoDB sink connector
+- [X] Documentation [21-Feb-2023]
+- [ ] Visualization Diagram
 - [ ] Apply other way of stream processing
-- [ ] Documentation
